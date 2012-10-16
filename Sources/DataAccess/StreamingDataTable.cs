@@ -14,13 +14,15 @@ namespace DataAccess
     internal class StreamingDataTable : DataTable
     {
         private readonly string _filename;
+        private readonly Encoding _encoding;
         private string[] _names;
 
-        public StreamingDataTable(string filename)
+        public StreamingDataTable(string filename, Encoding encoding)
         {
             _filename = filename;
+            _encoding = encoding;
         }
-        
+
         public override IEnumerable<string> ColumnNames
         {
             get
@@ -41,7 +43,7 @@ namespace DataAccess
 
         private TextReader OpenText()
         {
-            return new StreamReader(_filename);
+            return new StreamReader(_filename, _encoding);
         }
 
         public override IEnumerable<Row> Rows

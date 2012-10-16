@@ -66,13 +66,13 @@ namespace DataAccess
         /// to see the variation in each column to determine a good column to use for shredding.
         /// </param>
         /// <param name="templateFilename">template specifying filename of shredded files.</param>
-        public static void Shred(DataTable table, string columnName, string templateFilename)
+        public static void Shred(DataTable table, string columnName, string templateFilename, Encoding encoding)
         {
             Func<string, TextWriter> func =
                 (value) =>
                 {
                     string destination = string.Format(templateFilename, value);
-                    TextWriter tw = new StreamWriter(destination);
+                    TextWriter tw = new StreamWriter(destination, false, encoding);
                     return tw;
                 };
             Shred(table, columnName, func);
@@ -151,7 +151,7 @@ namespace DataAccess
             string[] values = new string[headers.Length];
 
             string path = GetTempFileName();
-            using (CsvWriter tw = new CsvWriter(path, headers))
+            using (CsvWriter tw = new CsvWriter(path, headers, Encoding.UTF8))
             {
 
                 foreach (var kv in m1)

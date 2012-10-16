@@ -22,10 +22,10 @@ namespace DataAccess
         /// <param name="account">azure acount</param>
         /// <param name="containerName">conatiner name</param>
         /// <param name="blobName">blob name</param>
-        public static void SaveToAzureBlob(this DataTable table, CloudStorageAccount account, string containerName, string blobName)
+        public static void SaveToAzureBlob(this DataTable table, CloudStorageAccount account, string containerName, string blobName, Encoding p_Encoding)
         {
             CloudBlobContainer container = DataTableBuilderAzureExtensions.GetContainer(account, containerName);
-            SaveToAzureBlob(table, container, blobName);
+            SaveToAzureBlob(table, container, blobName, p_Encoding);
         }
 
         /// <summary>
@@ -34,11 +34,11 @@ namespace DataAccess
         /// <param name="table">instance of table to save</param>
         /// <param name="container">conatiner</param>
         /// <param name="blobName">blob name</param>
-        public static void SaveToAzureBlob(this DataTable table, CloudBlobContainer container, string blobName)
+        public static void SaveToAzureBlob(this DataTable table, CloudBlobContainer container, string blobName, Encoding p_Encoding)
         {
             var blob = container.GetBlobReference(blobName);
             using (BlobStream stream = blob.OpenWrite())
-            using (TextWriter writer = new StreamWriter(stream))
+            using (TextWriter writer = new StreamWriter(stream, p_Encoding))
             {
                 table.SaveToStream(writer);
             }

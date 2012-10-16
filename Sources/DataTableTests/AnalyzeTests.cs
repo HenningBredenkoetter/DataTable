@@ -24,7 +24,7 @@ John, Smith, 34";
             string temp = Path.GetTempFileName();
             File.WriteAllText(temp, content);
 
-            return DataTable.New.ReadLazy(temp);
+            return DataTable.New.ReadLazy(temp, Encoding.Default);
         }
                
         MutableDataTable GetInMemoryTable()
@@ -148,7 +148,7 @@ Ed,Smith,12
 
             string templateFilename = Path.GetTempFileName() + ".{0}.csv";
 
-            Analyze.Shred(dt, "last", templateFilename);
+            Analyze.Shred(dt, "last", templateFilename, Encoding.Default);
 
             string file1 = string.Format(templateFilename, "Smith");
             string file2 = string.Format(templateFilename, "Jones");

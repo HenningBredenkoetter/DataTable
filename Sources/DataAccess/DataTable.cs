@@ -112,15 +112,16 @@ namespace DataAccess
                     writer.WriteRow(row);
                 }
             }
-        }               
+        }
 
         /// <summary>
         /// Save the table as a CSV to the given filename
         /// </summary>
         /// <param name="outputFilename">filename on disk to save to.</param>
-        public void SaveCSV(string outputFilename)
+        /// <param name="encoding">specifies encoding </param>
+        public void SaveCSV(string outputFilename, Encoding encoding)
         {
-            using (StreamWriter sw = new StreamWriter(outputFilename))
+            using (StreamWriter sw = new StreamWriter(outputFilename, false, encoding))
             {
                 SaveToStream(sw);
             }

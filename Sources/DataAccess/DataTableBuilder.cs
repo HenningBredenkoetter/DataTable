@@ -115,9 +115,9 @@ namespace DataAccess
         /// <param name="builder">ignored</param>
         /// <param name="filename">filename of table to load. Schema is inferred from header row.</param>
         /// <returns>a in-memory table containing the topN rows from the supplied file.</returns>
-        public static MutableDataTable ReadSampleTopN(this DataTableBuilder builder, string filename)
+        public static MutableDataTable ReadSampleTopN(this DataTableBuilder builder, string filename, Encoding encoding)
         {
-            return ReadSampleTopN(builder, filename, 100);
+            return ReadSampleTopN(builder, filename, encoding, 100);
         }
         
         /// <summary>
@@ -127,7 +127,7 @@ namespace DataAccess
         /// <param name="filename">filename of table to load. Schema is inferred from header row.</param>
         /// <param name="topN">reads the topN rows from the table.</param>
         /// <returns>a in-memory table containing the topN rows from the supplied file.</returns>
-        public static MutableDataTable ReadSampleTopN(this DataTableBuilder builder, string filename, int topN = 100)
+        public static MutableDataTable ReadSampleTopN(this DataTableBuilder builder, string filename, Encoding encoding, int topN = 100)
         {
             Debug.Assert(builder != null);
             if (filename == null)
@@ -135,7 +135,7 @@ namespace DataAccess
                 throw new ArgumentNullException("filename");
             }
 
-            DataTable source = new StreamingDataTable(filename);
+            DataTable source = new StreamingDataTable(filename, encoding);
             MutableDataTable dt = Analyze.SampleTopN(source, topN);
             return dt;
         }
@@ -147,11 +147,11 @@ namespace DataAccess
         /// <param name="builder"></param>
         /// <param name="filename">filename of CSV to read</param>
         /// <returns>a streaming data table for the given filename</returns>
-        public static DataTable ReadLazy(this DataTableBuilder builder, string filename)
+        public static DataTable ReadLazy(this DataTableBuilder builder, string filename, Encoding encoding)
         {
             Debug.Assert(builder != null);
 
-            return new StreamingDataTable(filename) { Name = filename };
+            return new StreamingDataTable(filename, encoding) { Name = filename };
         }
 
         

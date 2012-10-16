@@ -16,7 +16,7 @@ namespace DataTableTests
             var dt = DataTable.New.FromEnumerable(new int[] { 10, 20, 30, 40, 50 });
 
             string temp = Path.GetTempFileName() +".csv";
-            dt.SaveCSV(temp);
+            dt.SaveCSV(temp, Encoding.Default);
 
             string content = File.ReadAllText(temp);
             AnalyzeTests.AssertEquals(

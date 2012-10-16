@@ -30,16 +30,16 @@ namespace DataAccess
 
         // Will overwrite
         [SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope", Justification = "setting _ownsStream flag means caller will dispose")]
-        public CsvWriter(string outputFilename, IEnumerable<string> columnNames) 
-            : this(CreateWriterForFile(outputFilename), columnNames)
+        public CsvWriter(string outputFilename, IEnumerable<string> columnNames, Encoding encoding) 
+            : this(CreateWriterForFile(outputFilename, encoding), columnNames)
         {
             _ownsStream = true;
         }
 
-        static TextWriter CreateWriterForFile(string outputFilename)
+        static TextWriter CreateWriterForFile(string outputFilename, Encoding encoding)
         {
-            Directory.CreateDirectory(Path.GetDirectoryName(outputFilename));
-            return new StreamWriter(outputFilename);
+            Directory.CreateDirectory(Path.GetDirectoryName(outputFilename));           
+            return new StreamWriter(outputFilename, false, encoding);
         }
 
         // Write out specific values for the row. 

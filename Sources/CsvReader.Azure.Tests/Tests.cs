@@ -66,7 +66,7 @@ namespace CsvReader.Azure.Tests
             // Will create container if it doesn't exist. So delete
             DeleteContainer(account, containerName);
 
-            dtSource.SaveToAzureBlob(account, containerName, blobName);
+            dtSource.SaveToAzureBlob(account, containerName, blobName, Encoding.Default);
 
             // Verify existence.
             {
